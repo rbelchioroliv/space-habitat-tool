@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NASA Space Habitat Design Tool - Moon to Mars Architecture</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="nasa-logo">
+                <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNNTAgMTUwIEE1MCA1MCAwIDEgMCAxNTAgMTUwIiBmaWxsPSJub25lIiBzdHJva2U9IiNmYzNkMjEiIHN0cm9rZS13aWR0aD0iOCIvPjxjaXJjbGUgY3g9IjEwMCIgY3k9IjEwMCIgcj0iMjAiIGZpbGw9IiNmYzNkMjEiLz48L3N2Zz4=" alt="NASA" style="height: 40px; margin-right: 10px;">
+                NASA ARTEMIS PROGRAM • MOON TO MARS ARCHITECTURE
+            </div>
+            <h1>Space Habitat Design & Analysis Tool</h1>
+            <p class="subtitle">Based on NASA Moon to Mars Architecture Definition Document and Habitability Design Guidelines</p>
+        </header>
+
+        <div class="compliance-banner">
+            <div class="compliance-item">
+                <span>Net Habitable Volume:</span>
+                <span id="nhv-status" class="status-compliant">Compliant</span>
+            </div>
+            <div class="compliance-item">
+                <span>MMPACT Construction:</span>
+                <span id="mmpact-status" class="status-warning">Review Required</span>
+            </div>
+            <div class="compliance-item">
+                <span>NextSTEP Guidelines:</span>
+                <span id="nextstep-status" class="status-compliant">Compliant</span>
+            </div>
+        </div>
+        
+        <div class="app-container">
+            <!-- Mission Architecture Panel -->
+            <div class="mission-panel">
+                <div class="control-group">
+                    <h2>Mission Architecture</h2>
+                    <div class="mission-options">
+                        <div class="mission-option active" data-destination="lunar-surface">
+                            <div class="mission-icon">🌕</div>
+                            <div class="mission-info">
+                                <strong>Lunar Surface</strong>
+                                <small>Artemis Base Camp</small>
+                            </div>
+                        </div>
+                        <div class="mission-option" data-destination="mars-transit">
+                            <div class="mission-icon">🚀</div>
+                            <div class="mission-info">
+                                <strong>Mars Transit</strong>
+                                <small>Deep Space Transport</small>
+                            </div>
+                        </div>
+                        <div class="mission-option" data-destination="mars-surface">
+                            <div class="mission-icon">🪐</div>
+                            <div class="mission-info">
+                                <strong>Mars Surface</strong>
+                                <small>Mars Base</small>
+                            </div>
+                        </div>
+                        <div class="mission-option" data-destination="gateway">
+                            <div class="mission-icon">🛰️</div>
+                            <div class="mission-info">
+                                <strong>Lunar Gateway</strong>
+                                <small>Orbital Platform</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="control-group">
+                    <h2>Crew & Mission Parameters</h2>
+                    <div class="parameter-grid">
+                        <div class="parameter-item">
+                            <label for="crew-size">Crew Size</label>
+                            <input type="range" id="crew-size" min="2" max="12" value="4">
+                            <div class="value-display" id="crew-size-value">4 astronauts</div>
+                        </div>
+                        <div class="parameter-item">
+                            <label for="mission-duration">Mission Duration</label>
+                            <input type="range" id="mission-duration" min="30" max="1080" value="180">
+                            <div class="value-display" id="mission-duration-value">180 days</div>
+                        </div>
+                        <div class="parameter-item">
+                            <label for="eva-frequency">EVA Frequency</label>
+                            <input type="range" id="eva-frequency" min="0" max="20" value="4">
+                            <div class="value-display" id="eva-frequency-value">4/week</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <h2>Construction Technology</h2>
+                    <div class="tech-options">
+                        <div class="tech-option active" data-tech="prefab">
+                            <div class="tech-icon">🏗️</div>
+                            <div>Pre-fabricated</div>
+                        </div>
+                        <div class="tech-option" data-tech="inflatable">
+                            <div class="tech-icon">🎈</div>
+                            <div>Inflatable Softgoods</div>
+                        </div>
+                        <div class="tech-option" data-tech="isl">
+                            <div class="tech-icon">🏭</div>
+                            <div>In-Situ Manufacturing</div>
+                        </div>
+                        <div class="tech-option" data-tech="hybrid">
+                            <div class="tech-icon">🔀</div>
+                            <div>Hybrid Approach</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="nasa-standards">
+                    <h2>NASA Standards Compliance</h2>
+                    <div class="standard-item">
+                        <label>Net Habitable Volume:</label>
+                        <span id="nhv-value">25 m³/crew</span>
+                    </div>
+                    <div class="standard-item">
+                        <label>Food Production:</label>
+                        <span id="food-value">2.5 kg/crew/day</span>
+                    </div>
+                    <div class="standard-item">
+                        <label>Water Recycling:</label>
+                        <span id="water-value">> 90%</span>
+                    </div>
+                    <div class="standard-item">
+                        <label>Radiation Protection:</label>
+                        <span id="radiation-value">20 g/cm²</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Habitat Design Panel -->
+            <div class="controls-panel">
+                <div class="control-group">
+                    <h2>Habitat Structure Type</h2>
+                    <div class="structure-options">
+                        <div class="structure-option active" data-structure="cylinder">
+                            <div class="structure-icon">⭕</div>
+                            <div>Cylinder</div>
+                            <div class="structure-desc">Standard ISS-style</div>
+                        </div>
+                        <div class="structure-option" data-structure="sphere">
+                            <div class="structure-icon">🔴</div>
+                            <div>Sphere</div>
+                            <div class="structure-desc">Optimal volume</div>
+                        </div>
+                        <div class="structure-option" data-structure="torus">
+                            <div class="structure-icon">⭕</div>
+                            <div>Torus</div>
+                            <div class="structure-desc">Artificial gravity</div>
+                        </div>
+                        <div class="structure-option" data-structure="modular">
+                            <div class="structure-icon">🧩</div>
+                            <div>Modular</div>
+                            <div class="structure-desc">CSA-inspired</div>
+                        </div>
+                        <div class="structure-option" data-structure="horizontal">
+                            <div class="structure-icon">⬌</div>
+                            <div>Horizontal</div>
+                            <div class="structure-desc">Surface optimized</div>
+                        </div>
+                        <div class="structure-option" data-structure="vertical">
+                            <div class="structure-icon">⬍</div>
+                            <div>Vertical</div>
+                            <div class="structure-desc">Landing footprint</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="control-group">
+                    <h2>Habitat Dimensions & Layout</h2>
+                    <div class="dimension-controls">
+                        <div class="dimension-item">
+                            <label for="diameter">Diameter</label>
+                            <input type="range" id="diameter" min="3" max="20" value="8" step="0.5">
+                            <div class="value-display" id="diameter-value">8.0 m</div>
+                        </div>
+                        <div class="dimension-item">
+                            <label for="length">Length</label>
+                            <input type="range" id="length" min="5" max="30" value="12" step="0.5">
+                            <div class="value-display" id="length-value">12.0 m</div>
+                        </div>
+                        <div class="dimension-item">
+                            <label for="levels">Deck Levels</label>
+                            <input type="range" id="levels" min="1" max="4" value="2">
+                            <div class="value-display" id="levels-value">2 levels</div>
+                        </div>
+                        <div class="dimension-item">
+                            <label for="rotation">Rotation</label>
+                            <input type="range" id="rotation" min="0" max="4" value="0" step="0.1">
+                            <div class="value-display" id="rotation-value">0.0 RPM</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="habitat-metrics">
+                    <h2>Habitat Performance Metrics</h2>
+                    <div class="metric-grid">
+                        <div class="metric-item">
+                            <div class="metric-label">Total Volume</div>
+                            <div class="metric-value" id="total-volume">603 m³</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-label">Net Habitable Volume</div>
+                            <div class="metric-value" id="nhv-metric">482 m³</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-label">Floor Area</div>
+                            <div class="metric-value" id="floor-area">150 m²</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-label">Mass Estimate</div>
+                            <div class="metric-value" id="mass-estimate">18.5 t</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-label">Volume/Crew</div>
+                            <div class="metric-value" id="volume-per-crew">120.5 m³</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-label">Launch Compatible</div>
+                            <div class="metric-value compliant" id="launch-compatible">Yes</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="design-constraints">
+                    <h2>Design Constraints Analysis</h2>
+                    <div class="constraints-list" id="constraints-list">
+                        <!-- Constraints will be populated dynamically -->
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 3D Visualization Area -->
+            <div class="visualization-area" id="visualization-container">
+                <div class="view-controls">
+                    <div class="view-mode">
+                        <button id="view-exterior" class="active">Exterior View</button>
+                        <button id="view-interior">Interior View</button>
+                    </div>
+                    <div class="view-options">
+                        <button id="view-top">Top</button>
+                        <button id="view-side">Side</button>
+                        <button id="view-3d">3D</button>
+                        <button id="toggle-grid">Grid</button>
+                        <button id="toggle-structure">Structure</button>
+                    </div>
+                </div>
+
+                <div class="interior-navigation" style="display: none;">
+                    <button id="level-up">↑ Upper Level</button>
+                    <span class="level-indicator">Level: <span id="current-level">1</span></span>
+                    <button id="level-down">↓ Lower Level</button>
+                </div>
+
+                <div class="info-panel">
+                    <h3 id="habitat-title">Lunar Surface Habitat</h3>
+                    <p id="habitat-description">Based on NASA Moon to Mars Architecture - Designed for 4 crew members on 180-day mission</p>
+                    <div class="tech-specs">
+                        <div class="spec-item">
+                            <span>Structure:</span>
+                            <span>Cylindrical Pre-fabricated</span>
+                        </div>
+                        <div class="spec-item">
+                            <span>Technology:</span>
+                            <span>NextSTEP Compliant</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Interior Design & Layout Panel -->
+            <div class="layout-panel">
+                <div class="tab-container">
+                    <div class="tabs">
+                        <div class="tab active" data-tab="functions">Functional Areas</div>
+                        <div class="tab" data-tab="layout">Layout Optimization</div>
+                        <div class="tab" data-tab="objects">Equipment & Systems</div>
+                        <div class="tab" data-tab="analysis">Habitability Analysis</div>
+                    </div>
+                    
+                    <div class="tab-content active" id="functions-tab">
+                        <h2>Functional Area Planning</h2>
+                        <p>Based on NASA NextSTEP Habitability Guidelines</p>
+                        
+                        <div class="functional-categories">
+                            <div class="category">
+                                <h3>Crew Support</h3>
+                                <div class="area-options">
+                                    <div class="area-option" data-area="sleep">
+                                        <div class="area-icon">🛏️</div>
+                                        <span>Sleep Quarters</span>
+                                        <small>4 m² min</small>
+                                    </div>
+                                    <div class="area-option" data-area="hygiene">
+                                        <div class="area-icon">🚿</div>
+                                        <span>Hygiene</span>
+                                        <small>3 m² min</small>
+                                    </div>
+                                    <div class="area-option" data-area="medical">
+                                        <div class="area-icon">🏥</div>
+                                        <span>Medical</span>
+                                        <small>6 m² min</small>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="category">
+                                <h3>Operations</h3>
+                                <div class="area-options">
+                                    <div class="area-option" data-area="control">
+                                        <div class="area-icon">🎮</div>
+                                        <span>Control Station</span>
+                                        <small>8 m² min</small>
+                                    </div>
+                                    <div class="area-option" data-area="work">
+                                        <div class="area-icon">🔬</div>
+                                        <span>Workstation/Lab</span>
+                                        <small>10 m² min</small>
+                                    </div>
+                                    <div class="area-option" data-area="eclss">
+                                        <div class="area-icon">💨</div>
+                                        <span>ECLSS</span>
+                                        <small>8 m² min</small>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="category">
+                                <h3>Sustenance</h3>
+                                <div class="area-options">
+                                    <div class="area-option" data-area="galley">
+                                        <div class="area-icon">🍳</div>
+                                        <span>Galley</span>
+                                        <small>6 m² min</small>
+                                    </div>
+                                    <div class="area-option" data-area="dining">
+                                        <div class="area-icon">🍽️</div>
+                                        <span>Dining</span>
+                                        <small>8 m² min</small>
+                                    </div>
+                                    <div class="area-option" data-area="greenhouse">
+                                        <div class="area-icon">🌱</div>
+                                        <span>Food Production</span>
+                                        <small>12 m² min</small>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="category">
+                                <h3>Well-being</h3>
+                                <div class="area-options">
+                                    <div class="area-option" data-area="exercise">
+                                        <div class="area-icon">💪</div>
+                                        <span>Exercise</span>
+                                        <small>10 m² min</small>
+                                    </div>
+                                    <div class="area-option" data-area="recreation">
+                                        <div class="area-icon">🎮</div>
+                                        <span>Recreation</span>
+                                        <small>10 m² min</small>
+                                    </div>
+                                    <div class="area-option" data-area="storage">
+                                        <div class="area-icon">📦</div>
+                                        <span>Storage</span>
+                                        <small>6 m² min</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="layout-feedback">
+                            <h3>Habitability Assessment</h3>
+                            <div id="habitability-feedback">
+                                <div class="feedback-item compliant">
+                                    <span>✓</span>
+                                    <span>Net Habitable Volume meets NASA standards</span>
+                                </div>
+                                <div class="feedback-item warning">
+                                    <span>⚠</span>
+                                    <span>Consider adding more recreation space</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="tab-content" id="layout-tab">
+                        <h2>Layout Optimization</h2>
+                        <p>Automated layout analysis based on NASA design guidelines</p>
+                        
+                        <div class="optimization-controls">
+                            <button id="optimize-layout">Optimize Layout</button>
+                            <button id="generate-alternatives">Generate Alternatives</button>
+                            <button id="reset-layout">Reset to Default</button>
+                        </div>
+
+                        <div class="layout-metrics">
+                            <h3>Layout Performance Metrics</h3>
+                            <div class="metric-display">
+                                <div class="metric">
+                                    <label>Adjacency Score:</label>
+                                    <span id="adjacency-score">85%</span>
+                                </div>
+                                <div class="metric">
+                                    <label>Traffic Flow:</label>
+                                    <span id="traffic-flow">Good</span>
+                                </div>
+                                <div class="metric">
+                                    <label>Privacy Zones:</label>
+                                    <span id="privacy-score">Adequate</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="zoning-guidelines">
+                            <h3>NASA Zoning Recommendations</h3>
+                            <div class="guidelines-list">
+                                <div class="guideline">
+                                    <strong>Sleep areas</strong> should be separated from noisy operations
+                                </div>
+                                <div class="guideline">
+                                    <strong>Galley and dining</strong> should be adjacent
+                                </div>
+                                <div class="guideline">
+                                    <strong>Medical facilities</strong> should be easily accessible
+                                </div>
+                                <div class="guideline">
+                                    <strong>ECLSS systems</strong> should be centrally located
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="tab-content" id="objects-tab">
+                        <h2>Equipment & Systems</h2>
+                        <p>Based on CSA multi-functionality requirements</p>
+                        
+                        <div class="equipment-categories">
+                            <div class="category">
+                                <h3>Life Support</h3>
+                                <div class="equipment-list">
+                                    <div class="equipment-item" data-equipment="oxygen-system">
+                                        <div class="equipment-icon">💨</div>
+                                        <span>Oxygen Generation</span>
+                                    </div>
+                                    <div class="equipment-item" data-equipment="water-recycler">
+                                        <div class="equipment-icon">💧</div>
+                                        <span>Water Recycling</span>
+                                    </div>
+                                    <div class="equipment-item" data-equipment="co2-scrubber">
+                                        <div class="equipment-icon">🌬️</div>
+                                        <span>CO2 Scrubbing</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="category">
+                                <h3>Crew Systems</h3>
+                                <div class="equipment-list">
+                                    <div class="equipment-item" data-equipment="sleep-station">
+                                        <div class="equipment-icon">🛏️</div>
+                                        <span>Sleep Station</span>
+                                    </div>
+                                    <div class="equipment-item" data-equipment="exercise-equipment">
+                                        <div class="equipment-icon">🏃</div>
+                                        <span>Exercise Equipment</span>
+                                    </div>
+                                    <div class="equipment-item" data-equipment="galley-equipment">
+                                        <div class="equipment-icon">🍳</div>
+                                        <span>Galley Equipment</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="category">
+                                <h3>Science & Operations</h3>
+                                <div class="equipment-list">
+                                    <div class="equipment-item" data-equipment="lab-equipment">
+                                        <div class="equipment-icon">🔬</div>
+                                        <span>Lab Equipment</span>
+                                    </div>
+                                    <div class="equipment-item" data-equipment="control-consoles">
+                                        <div class="equipment-icon">🎮</div>
+                                        <span>Control Consoles</span>
+                                    </div>
+                                    <div class="equipment-item" data-equipment="comm-systems">
+                                        <div class="equipment-icon">📡</div>
+                                        <span>Comm Systems</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="equipment-properties" style="display: none;">
+                            <h3>Equipment Properties</h3>
+                            <div id="equipment-props-content"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="tab-content" id="analysis-tab">
+                        <h2>Habitability Analysis</h2>
+                        <p>Comprehensive assessment based on NASA Deep Space Habitability Guidelines</p>
+                        
+                        <div class="analysis-sections">
+                            <div class="analysis-section">
+                                <h3>Volume Analysis</h3>
+                                <div class="analysis-chart">
+                                    <div class="chart-bar">
+                                        <div class="chart-label">Total Volume</div>
+                                        <div class="chart-value">603 m³</div>
+                                        <div class="chart-visual" style="width: 90%"></div>
+                                    </div>
+                                    <div class="chart-bar">
+                                        <div class="chart-label">Net Habitable Volume</div>
+                                        <div class="chart-value">482 m³</div>
+                                        <div class="chart-visual" style="width: 72%"></div>
+                                    </div>
+                                    <div class="chart-bar">
+                                        <div class="chart-label">NASA Minimum</div>
+                                        <div class="chart-value">100 m³</div>
+                                        <div class="chart-visual" style="width: 15%"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="analysis-section">
+                                <h3>Functional Area Distribution</h3>
+                                <div class="area-breakdown">
+                                    <div class="breakdown-item">
+                                        <span>Crew Support</span>
+                                        <span>35%</span>
+                                    </div>
+                                    <div class="breakdown-item">
+                                        <span>Operations</span>
+                                        <span>25%</span>
+                                    </div>
+                                    <div class="breakdown-item">
+                                        <span>Sustenance</span>
+                                        <span>20%</span>
+                                    </div>
+                                    <div class="breakdown-item">
+                                        <span>Well-being</span>
+                                        <span>20%</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="analysis-section">
+                                <h3>Compliance Report</h3>
+                                <div class="compliance-list">
+                                    <div class="compliance-item success">
+                                        <span>✓</span>
+                                        <span>Meets Net Habitable Volume requirements</span>
+                                    </div>
+                                    <div class="compliance-item success">
+                                        <span>✓</span>
+                                        <span>Adequate privacy zones provided</span>
+                                    </div>
+                                    <div class="compliance-item warning">
+                                        <span>⚠</span>
+                                        <span>Exercise area below recommended size</span>
+                                    </div>
+                                    <div class="compliance-item success">
+                                        <span>✓</span>
+                                        <span>ECLSS systems properly located</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="action-buttons">
+                    <button id="save-design" class="btn-primary">Save Habitat Design</button>
+                    <button id="export-report" class="btn-secondary">Export Analysis Report</button>
+                    <button id="validate-design" class="btn-tertiary">Validate with NASA Standards</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer with NASA References -->
+        <footer class="nasa-references">
+            <h3>NASA References & Standards</h3>
+            <div class="references-grid">
+                <div class="reference-item">
+                    <strong>Moon to Mars Architecture</strong>
+                    <span>NASA's integrated approach for sustainable exploration</span>
+                </div>
+                <div class="reference-item">
+                    <strong>Net Habitable Volume</strong>
+                    <span>Stromgren et al. - Long duration mission requirements</span>
+                </div>
+                <div class="reference-item">
+                    <strong>NextSTEP Guidelines</strong>
+                    <span>Deep Space Habitability Design Standards</span>
+                </div>
+                <div class="reference-item">
+                    <strong>MMPACT Technology</strong>
+                    <span>Planetary Autonomous Construction capabilities</span>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.min.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/nasa-standards.js"></script>
+    <script src="js/threejs-scene.js"></script>
+    <script src="js/mission-planner.js"></script>
+    <script src="js/habitat-builder.js"></script>
+    <script src="js/interior-designer.js"></script>
+    <script src="js/layout-optimizer.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
