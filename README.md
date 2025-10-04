@@ -4,6 +4,12 @@
 Uma ferramenta interativa em JavaScript, HTML e CSS, com renderização 3D utilizando Three.js, desenvolvida para projetar e visualizar habitats espaciais — estruturas que sustentam a vida humana no espaço ou em outros planetas.
 <br>
 
+   <div aling="center">
+      <a href="https://github.com/MariaIsabelli">
+      <img  height="180em" src="https://github.com/MariaIsabelli/space-habitat-tool/blob/main/Front%20-%20End%20Space%20Habitat%20Tool%20-%201.jpg"/>
+      <img height="180em" src="https://github.com/MariaIsabelli/space-habitat-tool/blob/main/Front%20-%20End%20Space%20Habitat%20Tool%20-%202.jpg"/>
+   </div>
+
 # 🌍 Sobre o Projeto
 
 Habitats espaciais são "lares no espaço" que devem garantir que os membros da tripulação permaneçam saudáveis e aptos para executar suas missões.
