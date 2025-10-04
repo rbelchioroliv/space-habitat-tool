@@ -576,7 +576,7 @@
                 
                 <div class="action-buttons">
                     <button id="save-design" class="btn-primary">Save Habitat Design</button>
-                    <button id="export-report" class="btn-secondary">Export Analysis Report</button>
+                    <button id="export-pdf" class="btn-tertiary">Exportar PDF</button> 
                     <button id="validate-design" class="btn-tertiary">Validate with NASA Standards</button>
                 </div>
             </div>
@@ -606,15 +606,60 @@
         </footer>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.min.js"></script>
-    <script src="js/utils.js"></script>
-    <script src="js/nasa-standards.js"></script>
-    <script src="js/threejs-scene.js"></script>
-    <script src="js/mission-planner.js"></script>
-    <script src="js/habitat-builder.js"></script>
-    <script src="js/interior-designer.js"></script>
-    <script src="js/layout-optimizer.js"></script>
-    <script src="js/main.js"></script>
+    
+<!-- Three.js clássicos -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.min.js"></script>
+
+<!-- html2canvas + jsPDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+// --- Inicialização Three.js ---
+const container = document.getElementById('visualization-container');
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(45, container.clientWidth/container.clientHeight, 0.1, 1000);
+const renderer = new THREE.WebGLRenderer({ antialias: true });
+renderer.setSize(container.clientWidth, container.clientHeight);
+container.appendChild(renderer.domElement);
+
+const controls = new THREE.OrbitControls(camera, renderer.domElement);
+camera.position.set(5,5,5);
+controls.update();
+
+// Exemplo de objeto 3D
+const geometry = new THREE.BoxGeometry(2,2,2);
+const material = new THREE.MeshStandardMaterial({ color: 0x0077ff });
+const cube = new THREE.Mesh(geometry, material);
+scene.add(cube);
+
+// Luz
+const light = new THREE.DirectionalLight(0xffffff, 1);
+light.position.set(5,10,5);
+scene.add(light);
+
+function animate() {
+    requestAnimationFrame(animate);
+    cube.rotation.y += 0.01;
+    renderer.render(scene, camera);
+}
+animate();
+
+// --- Exportar PDF ---
+document.getElementById("export-pdf").addEventListener("click", async () => {
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF('p', 'pt', 'a4');
+
+    const canvasImage = await html2canvas(document.querySelector(".container"), { scale: 2 });
+    const imgData = canvasImage.toDataURL('image/png');
+
+    const pdfWidth = pdf.internal.pageSize.getWidth();
+    const pdfHeight = (canvasImage.height * pdfWidth) / canvasImage.width;
+    pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+
+    pdf.save("nasa_habitat.pdf");
+});
+
+</script>
 </body>
 </html>
