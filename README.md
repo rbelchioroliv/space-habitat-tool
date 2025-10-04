@@ -62,7 +62,8 @@ O Space Habitat Tool permite que o usuário defina a forma e o volume de um habi
 
 ## 🛠 Instalação e Execução
 1. Clone este repositório: git clone https://github.com/seu-usuario/space-habitat-tool.git
-2. Acesse o diretório do projeto: cd space-habitat-tool
+2. No terminal rode o comando: `npx http-server`
+3. Acesse o diretório do projeto: cd space-habitat-tool
 3. Abra o arquivo index.html no seu navegador: Dica: use uma extensão como “Live Server” (VSCode) para melhor experiência local.
 
 ## 🎯 Objetivo
@@ -91,7 +92,7 @@ O projeto visa estimular o interesse por design espacial, engenharia aeroespacia
   
 - Vitória -
   
-- Camilla Carvalho -
+- Camilla Carvalho - camillacarvalhodejesus@gmail.com
 
 ## ⭐ Contribuições
 
