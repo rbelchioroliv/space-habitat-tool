@@ -2,7 +2,7 @@
  * Three.js Visualization Module
  * Advanced 3D rendering for interior and exterior habitat views
  */
-import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.128.0/examples/jsm/loaders/GLTFLoader.js';
+const GLTFLoader = THREE.GLTFLoader;
 
 class ThreeJSScene {
     constructor(containerId) {
@@ -121,6 +121,54 @@ class ThreeJSScene {
         this.scene.add(spot.target);
     }
 
+
+    loadInteriorHabitatModel() {
+        const loader = new GLTFLoader();
+        const modelPath = 'assets/nave1.glb';
+
+        loader.load(modelPath, (gltf) => {
+            const model = gltf.scene;
+
+            model.scale.set(0.001, 0.001, 0.001);
+            model.traverse((child) => {
+                if (child.isMesh) {
+                    child.scale.set(0.001, 0.001, 0.001);
+                    child.material.transparent = true;
+                    child.material.opacity = 0.6;
+                    child.material.depthWrite = false;
+                    child.material.side = THREE.DoubleSide;
+                }
+            });
+
+            // Centraliza no chão da cena
+            model.position.set(0, 0, 0);
+
+
+
+            // 🔄 Remove modelo anterior se existir
+            if (this.interiorModel) {
+                this.scene.remove(this.interiorModel);
+            }
+
+            // Adiciona à cena e referencia como interiorModel
+            this.scene.add(model);
+            this.interiorModel = model;
+
+            // Esconde por padrão — só mostra na Interior View
+            model.visible = false;
+
+            console.log('✅ Interior model loaded and scaled');
+        }, undefined, (error) => {
+            console.error('❌ Failed to load interior model', error);
+        });
+    }
+
+
+    createFunctionalArea(config) {
+        console.warn("Método createFunctionalArea ainda não implementado.");
+        // Aqui você pode adicionar lógica para posicionar áreas funcionais no habitat
+    }
+
     createHabitat(structure, radius, height, levels = 1) {
         this.clearHabitat();
 
@@ -230,23 +278,43 @@ class ThreeJSScene {
     }
 
     switchToInteriorView() {
+
         this.currentView = 'interior';
+
+        if (this.interiorModel) {
+            this.interiorModel.visible = true;
+        }
+        if (this.exteriorModel) {
+            this.exteriorModel.visible = false;
+        }
+
         this.exteriorGroup.visible = false;
         this.interiorGroup.visible = true;
         this.setupLighting();
         this.camera.position.set(0, 2, 0);
         this.controls.target.set(0, 2, 5);
         this.controls.update();
+        console.log('Switched to INTERIOR view');
     }
 
     switchToExteriorView() {
+
         this.currentView = 'exterior';
+
+        if (this.interiorModel) {
+            this.interiorModel.visible = false;
+        }
+        if (this.exteriorModel) {
+            this.exteriorModel.visible = true;
+        }
+
         this.exteriorGroup.visible = true;
         this.interiorGroup.visible = false;
         this.setupLighting();
         this.camera.position.set(15, 8, 15);
         this.controls.target.set(0, 0, 0);
         this.controls.update();
+        console.log('Switched to EXTERIOR view');
     }
 
     clearHabitat() {
@@ -272,4 +340,4 @@ class ThreeJSScene {
     }
 }
 
-export { ThreeJSScene };
+window.ThreeJSScene = ThreeJSScene;

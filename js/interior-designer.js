@@ -10,133 +10,52 @@ class InteriorDesigner {
         this.functionalAreas = new Map();
         this.equipmentItems = new Map();
         this.roomLayout = [];
-        
+
+
         this.areaTemplates = {
-            sleep: {
-                name: 'Sleep Quarters',
-                color: 0x4caf50,
-                minArea: 4,
-                recommended: 6,
-                equipment: ['sleep-station', 'storage', 'desk'],
-                privacy: 'high',
-                noiseSensitive: true,
-                category: 'crew-support'
-            },
-            hygiene: {
-                name: 'Hygiene Facility',
-                color: 0x2196f3,
-                minArea: 3,
-                recommended: 4,
-                equipment: ['water-recycler', 'shower', 'sink'],
-                privacy: 'medium',
-                noiseSensitive: false,
-                category: 'crew-support'
-            },
-            medical: {
-                name: 'Medical Bay',
-                color: 0xf44336,
-                minArea: 6,
-                recommended: 8,
-                equipment: ['medical-bed', 'monitor', 'cabinet'],
-                privacy: 'medium',
-                noiseSensitive: true,
-                category: 'crew-support'
-            },
-            galley: {
-                name: 'Galley',
-                color: 0xff9800,
-                minArea: 6,
-                recommended: 8,
-                equipment: ['galley-equipment', 'storage', 'prep-table'],
-                privacy: 'low',
-                noiseSensitive: false,
-                category: 'sustenance'
-            },
-            dining: {
-                name: 'Dining Area',
-                color: 0x795548,
-                minArea: 8,
-                recommended: 10,
-                equipment: ['table', 'chairs', 'storage'],
-                privacy: 'low',
-                noiseSensitive: false,
-                category: 'sustenance'
-            },
-            exercise: {
-                name: 'Exercise Area',
-                color: 0x9c27b0,
-                minArea: 10,
-                recommended: 12,
-                equipment: ['exercise-equipment', 'treadmill', 'weights'],
-                privacy: 'low',
-                noiseSensitive: false,
-                category: 'well-being'
-            },
-            work: {
-                name: 'Workstation/Lab',
-                color: 0x607d8b,
-                minArea: 8,
-                recommended: 10,
-                equipment: ['lab-equipment', 'computer', 'storage'],
-                privacy: 'medium',
-                noiseSensitive: true,
-                category: 'operations'
-            },
-            control: {
-                name: 'Control Station',
-                color: 0x00bcd4,
-                minArea: 6,
-                recommended: 8,
-                equipment: ['control-consoles', 'monitors', 'chair'],
-                privacy: 'medium',
-                noiseSensitive: true,
-                category: 'operations'
-            },
-            recreation: {
-                name: 'Recreation Area',
-                color: 0xe91e63,
-                minArea: 10,
-                recommended: 12,
-                equipment: ['sofa', 'entertainment', 'table'],
-                privacy: 'low',
-                noiseSensitive: false,
-                category: 'well-being'
-            },
-            storage: {
-                name: 'Storage',
-                color: 0x9e9e9e,
-                minArea: 6,
-                recommended: 8,
-                equipment: ['shelves', 'racks', 'containers'],
-                privacy: 'low',
-                noiseSensitive: false,
-                category: 'operations'
-            },
-            greenhouse: {
-                name: 'Food Production',
-                color: 0x8bc34a,
-                minArea: 12,
-                recommended: 15,
-                equipment: ['plant-rack', 'grow-lights', 'irrigation'],
-                privacy: 'low',
-                noiseSensitive: false,
-                category: 'sustenance'
-            },
-            eclss: {
-                name: 'Life Support',
-                color: 0x8bc34a,
-                minArea: 8,
-                recommended: 10,
-                equipment: ['oxygen-system', 'co2-scrubber', 'water-recycler'],
-                privacy: 'low',
-                noiseSensitive: false,
-                category: 'operations'
-            }
+            sleep: { name: 'Sleep Quarters', color: 0x4caf50, minArea: 4, recommended: 6, equipment: ['sleep-station', 'storage', 'desk'], privacy: 'high', noiseSensitive: true, category: 'crew-support' },
+            hygiene: { name: 'Hygiene Facility', color: 0x2196f3, minArea: 3, recommended: 4, equipment: ['water-recycler', 'shower', 'sink'], privacy: 'medium', noiseSensitive: false, category: 'crew-support' },
+            medical: { name: 'Medical Bay', color: 0xf44336, minArea: 6, recommended: 8, equipment: ['medical-bed', 'monitor', 'cabinet'], privacy: 'medium', noiseSensitive: true, category: 'crew-support' },
+            galley: { name: 'Galley', color: 0xff9800, minArea: 6, recommended: 8, equipment: ['galley-equipment', 'storage', 'prep-table'], privacy: 'low', noiseSensitive: false, category: 'sustenance' },
+            dining: { name: 'Dining Area', color: 0x795548, minArea: 8, recommended: 10, equipment: ['table', 'chairs', 'storage'], privacy: 'low', noiseSensitive: false, category: 'sustenance' },
+            exercise: { name: 'Exercise Area', color: 0x9c27b0, minArea: 10, recommended: 12, equipment: ['exercise-equipment', 'treadmill', 'weights'], privacy: 'low', noiseSensitive: false, category: 'well-being' },
+            work: { name: 'Workstation/Lab', color: 0x607d8b, minArea: 8, recommended: 10, equipment: ['lab-equipment', 'computer', 'storage'], privacy: 'medium', noiseSensitive: true, category: 'operations' },
+            control: { name: 'Control Station', color: 0x00bcd4, minArea: 6, recommended: 8, equipment: ['control-consoles', 'monitors', 'chair'], privacy: 'medium', noiseSensitive: true, category: 'operations' },
+            recreation: { name: 'Recreation Area', color: 0xe91e63, minArea: 10, recommended: 12, equipment: ['sofa', 'entertainment', 'table'], privacy: 'low', noiseSensitive: false, category: 'well-being' },
+            storage: { name: 'Storage', color: 0x9e9e9e, minArea: 6, recommended: 8, equipment: ['shelves', 'racks', 'containers'], privacy: 'low', noiseSensitive: false, category: 'operations' },
+            greenhouse: { name: 'Food Production', color: 0x8bc34a, minArea: 12, recommended: 15, equipment: ['plant-rack', 'grow-lights', 'irrigation'], privacy: 'low', noiseSensitive: false, category: 'sustenance' },
+            eclss: { name: 'Life Support', color: 0x8bc34a, minArea: 8, recommended: 10, equipment: ['oxygen-system', 'co2-scrubber', 'water-recycler'], privacy: 'low', noiseSensitive: false, category: 'operations' }
         };
+
 
         this.nasaStandards = new NASAStandards();
         this.initEventListeners();
         this.initDragAndDrop();
+    }
+
+    switchToInteriorView() {
+        this.currentView = 'interior';
+
+
+        // Update UI
+        document.getElementById('view-interior').classList.add('active');
+        document.getElementById('view-exterior').classList.remove('active');
+
+
+        // Switch Three.js scene to interior view and load interior model
+        if (window.threeScene) {
+            window.threeScene.switchToInteriorView();
+            window.threeScene.loadInteriorModel?.();
+        }
+
+
+        // Generate automatic interior layout if none exists
+        if (this.functionalAreas.size === 0) {
+            this.generateAutomaticLayout();
+        }
+
+
+        this.updateInteriorUI();
     }
 
     initEventListeners() {
@@ -235,11 +154,11 @@ class InteriorDesigner {
 
     switchToInteriorView() {
         this.currentView = 'interior';
-        
+
         // Update UI
         document.getElementById('view-interior').classList.add('active');
         document.getElementById('view-exterior').classList.remove('active');
-        
+
         // Switch Three.js scene to interior view
         if (window.threeScene) {
             window.threeScene.switchToInteriorView();
@@ -255,11 +174,11 @@ class InteriorDesigner {
 
     switchToExteriorView() {
         this.currentView = 'exterior';
-        
+
         // Update UI
         document.getElementById('view-exterior').classList.add('active');
         document.getElementById('view-interior').classList.remove('active');
-        
+
         // Switch Three.js scene to exterior view
         if (window.threeScene) {
             window.threeScene.switchToExteriorView();
@@ -271,15 +190,15 @@ class InteriorDesigner {
     generateAutomaticLayout() {
         const mission = window.missionPlanner?.getCurrentMission();
         const habitat = window.habitatBuilder?.getCurrentHabitat();
-        
+
         if (!mission || !habitat) return;
 
         // Calculate required areas based on mission parameters
         const requiredAreas = this.calculateRequiredAreas(mission, habitat);
-        
+
         // Generate layout positions
         const positions = this.calculateLayoutPositions(requiredAreas, habitat);
-        
+
         // Create areas at calculated positions
         requiredAreas.forEach((areaType, index) => {
             if (positions[index]) {
@@ -333,7 +252,7 @@ class InteriorDesigner {
         areas.forEach((area, index) => {
             const angle = index * angleStep;
             const distance = radius * 0.7; // Position areas inward from walls
-            
+
             const x = Math.cos(angle) * distance;
             const z = Math.sin(angle) * distance;
             const y = 0; // Ground level
@@ -386,7 +305,7 @@ class InteriorDesigner {
         if (!window.threeScene) return;
 
         const result = window.threeScene.addEquipment(equipmentType, position);
-        
+
         this.equipmentItems.set(result.id, {
             type: equipmentType,
             mesh: result.equipment,
@@ -406,7 +325,7 @@ class InteriorDesigner {
     selectEquipment(equipmentType) {
         // Highlight equipment of this type in the scene
         this.highlightEquipment(equipmentType);
-        
+
         // Show equipment properties
         this.showEquipmentProperties(equipmentType);
     }
@@ -414,7 +333,7 @@ class InteriorDesigner {
     selectArea(areaType) {
         // Highlight area in the scene
         this.highlightArea(areaType);
-        
+
         // Show area properties and options
         this.showAreaProperties(areaType);
     }
@@ -571,7 +490,7 @@ class InteriorDesigner {
         // Clear existing layout
         this.functionalAreas.clear();
         this.equipmentItems.clear();
-        
+
         if (window.threeScene) {
             window.threeScene.clearHabitat();
         }
