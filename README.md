@@ -123,11 +123,22 @@ Designing habitats in space is one of the most complex challenges in interplanet
 - Habitability compliance reports (NASA/ESA standards)
 
 
-## 🛠 Instalação e Execução
-1. Clone este repositório: git clone https://github.com/seu-usuario/space-habitat-tool.git
-2. Acesse o diretório do projeto: cd space-habitat-tool
-3. No terminal, rode o comando: `npx http-server`
-4. Abra o arquivo `index.html` no seu navegador: Dica: use uma extensão como “Live Server” (VSCode) para melhor experiência local.
+## 🛠 Installation & Execution
+1. Clone this repository:
+```
+git clone https://github.com/seu-usuario/space-habitat-tool.git
+```
+2. Navigate to the project directory:
+```
+cd space-habitat-tool
+```
+3. Start a local server:
+```
+npx http-server`
+```
+4. Open the index.html file in your browser: 
+
+> Tip: For a better local experience, use the "Live Server" extension in VSCode.
 
 
 ## 📈 Future Improvements
