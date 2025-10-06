@@ -1,106 +1,140 @@
 
-# 🪐 Space Habitat Tool
+## 🪐 Singularity: Visual Tool for Space Habitat Design
 
-Uma ferramenta interativa em JavaScript, HTML e CSS, com renderização 3D utilizando Three.js, desenvolvida para projetar e visualizar habitats espaciais — estruturas que sustentam a vida humana no espaço ou em outros planetas.
+Singularity is an interactive 3D web application designed to democratize the design of space habitats by transforming complex engineering parameters into intuitive and educational visual experiences. Built with HTML, CSS, JavaScript, and Three.js, the tool enables users to create and simulate habitable structures for orbital, lunar, and Martian environments, following constraints and best practices based on NASA’s Human Spaceflight Architecture standards.
 <br>
 
-   <div aling="center">
-      <a href="https://github.com/MariaIsabelli">
-      <img  height="180em" src="https://github.com/MariaIsabelli/space-habitat-tool/blob/main/Front%20-%20End%20Space%20Habitat%20Tool%20-%201.jpg"/>
-      <img height="180em" src="https://github.com/MariaIsabelli/space-habitat-tool/blob/main/Front%20-%20End%20Space%20Habitat%20Tool%20-%202.jpg"/>
-   </div>
+## 🧭 Purpose and Vision
 
-# 🌍 Sobre o Projeto
+Designing habitats in space is one of the most complex challenges in interplanetary exploration. Current tools often require advanced technical knowledge, excluding students, educators, and the general public from meaningful participation in space innovation.
 
-Habitats espaciais são "lares no espaço" que devem garantir que os membros da tripulação permaneçam saudáveis e aptos para executar suas missões.
-Esses ambientes precisam atender a diversas funções críticas, como:
+**Singularity** bridges this gap by providing a user-friendly, scientifically grounded platform to:
 
- - 💨 Suporte à vida (oxigênio, CO₂, pressão e umidade)
+- Conceptualize space habitats in various environments (Moon, Mars, Orbit)
+- Simulate internal layouts and modular configurations
+- Validate design constraints using real mission parameters (crew size, duration, gravity, volume, radiation exposure)
+- Inspire and educate future generations of space architects, engineers, and explorers
 
-- 🔋 Energia e controle térmico
 
-- 🗑 Gerenciamento de resíduos e reciclagem
+## 🧩 Key Features
 
-- 🍽 Preparação e armazenamento de alimentos
+🌐 Environment and Mission Parameters
 
-- 💊 Cuidados médicos e higiene
+- Select target environment: Lunar surface, Martian surface, or orbital station
+- Configure mission parameters: crew size, duration, EVA frequency
+- Choose habitat structure type: Metallic, Inflatable, or In-situ Manufactured
 
-- 😴 Sono e lazer
+## 🧱 Habitat Modeling and Visualization
 
-- 💪 Exercícios físicos
+- Define base geometry: sphere, cylinder, toroid, etc.
+- Real-time 3D visualization (exterior/interior views)
+- Volume and floor area computation
+- Launch compatibility validation (e.g., SLS Block 1B payload constraints)
 
-- 📡 Comunicações internas e externas
+## 🗂 Functional Zoning and Layout
 
-O Space Habitat Tool permite que o usuário defina a forma e o volume de um habitat espacial e explore possíveis configurações internas e layouts funcionais, promovendo uma experiência educativa e imersiva em design espacial.
+- Internal partitioning into functional areas:
 
-## 🚀 Funcionalidades
+    - Sleep Quarters
+    - Hygiene Facilities
+    - Food Preparation & Cultivation
+    - Medical Bay
+    - Exercise Zones
+    - Command & Control
+    - Waste Management
 
-- 🧱 Criação e manipulação de formas geométricas 3D (esferas, cilindros, módulos customizados)
+### - Intelligent zoning recommendations:
 
-- 🪞 Aplicação de materiais, texturas e iluminação realista
+    - Noise isolation
+    - Functional adjacency
+    - Traffic flow analysis
 
-- 🧭 Controle interativo da câmera, rotação e zoom
+## 📊 Validation and Metrics
 
-- 📐 Definição do volume interno e proporções do habitat
+- Automatic validation using NASA parameters:
 
-- 🧍‍♂️ Inserção e ajuste de módulos de uso (sono, alimentação, controle, armazenamento etc.)
+    - Internal Pressurized Volume (IPV)
+    - Net Habitable Volume (NHV)
+    - Volume per crew member
+    - Radiation shielding analysis
 
-- 💡 Exploração de diferentes layouts e combinações espaciais
+- Real-time feedback:
 
-- 🌗 Visualização em modo dia/noite e condições simuladas de espaço
+    - Green: meets NASA constraints
+    - Red: violates mission parameters
 
-## 🧩 Tecnologias Utilizadas
-- HTML5	Estrutura da aplicação
 
-- CSS3	Estilos e layout responsivo
+## 💡 Educational Focus and Impact
 
-- JavaScript (ES6)	Lógica e interatividade
-  
-- Three.js	Renderização 3D e manipulação de objetos espaciais
-  
-- GLTF / OBJ	Importação e exportação de modelos 3D
+### Target Audience:
 
-## 🛠 Instalação e Execução
-1. Clone este repositório: git clone https://github.com/seu-usuario/space-habitat-tool.git
-2. No terminal rode o comando: `npx http-server`
-3. Acesse o diretório do projeto: cd space-habitat-tool
-3. Abra o arquivo index.html no seu navegador: Dica: use uma extensão como “Live Server” (VSCode) para melhor experiência local.
+- Students (high school, technical, university)
+- Educators and curriculum designers
+- Enthusiasts of space science and exploration
 
-## 🎯 Objetivo
+## Intended Outcomes:
 
-Fornecer uma ferramenta educativa e visual para estudantes, engenheiros e entusiastas do espaço que desejam conceituar, planejar e testar habitats espaciais.
-O projeto visa estimular o interesse por design espacial, engenharia aeroespacial e sustentabilidade extraterrestre.
+- Promote inclusion in STEM disciplines
+- Support project-based learning on sustainability and habitability
+- Stimulate creative problem-solving in extreme environment design
 
-## 💬 Futuras Melhorias
+## 🔭 Technologies Used
 
--🧬 Integração com simuladores de física (gravidade e pressão)
+`HTML5:` Application structure         
+`CSS3:` Responsive layout and styling         
+`JavaScript (ES6):` Application logic and data handling         
+`Three.js:` 3D object modeling and rendering         
+`GLTF/OBJ:` 3D model import/export         
 
-- 🌡 Painel de controle ambiental (temperatura, oxigênio, energia)
+## 🧪 Future Enhancements
 
-- 👩‍🚀 Criação de avatares interativos para explorar o interior
+- Physics simulation: microgravity, atmospheric pressure
+- Environmental control dashboard: temperature, oxygen, CO₂, power
+- Avatar-based habitat navigation (IVA/EVA simulation)
+- WebXR support for VR walkthroughs
+- Habitability compliance reports (NASA/ESA standards)
 
-- 🌐 Exportação do modelo para VR / WebXR
 
-- 🛰 Geração automática de relatórios de habitabilidadeuras Melhorias
+## 🛠 Installation & Execution
+1. Clone this repository:
+```
+git clone https://github.com/seu-usuario/space-habitat-tool.git
+```
+2. Navigate to the project directory:
+```
+cd space-habitat-tool
+```
+3. Start a local server:
+```
+npx http-server`
+```
+4. Open the index.html file in your browser: 
 
-## 👩‍🚀 Equipe
-- Renan Benchior - renanbenchior1@gmail.com
-  
-- Maria Isabelli Pinto - mariaisabellipinto@gmail.com
-  
-- Marcia - marciacamargo.enj@gmail.com
-  
-- Vitória -
-  
-- Camilla Carvalho - camillacarvalhodejesus@gmail.com
+> Tip: For a better local experience, use the "Live Server" extension in VSCode.
+
+
+## 📈 Future Improvements
+
+- 🧬 Integration with physics simulation engines (gravity, pressure)
+- 🌡 Environmental control dashboard (temperature, oxygen levels, energy consumption)
+- 👩‍🚀 Creation of interactive avatars for immersive exploration
+- 🌐 Export capability for VR/WebXR environments
+- 🛰 Automated generation of habitability assessment reports
+
+## 👩‍🚀 Project Team
+
+- **Renan Benchior:**`renanbenchior1@gmail.com`
+- **Maria Isabelli Pinto:** `mariaisabellipinto@gmail.com`
+- **Marcia Cristina Camargo de Oliveira:** `marciacamargo.enj@gmail.com`
+- **Camilla Carvalho de Jesus:**  `camillacarvalhojesus@gmail.com`
 
 ## ⭐ Contribuições
 
-Contribuições são bem-vindas!
-Sinta-se à vontade para abrir um issue ou enviar um pull request com melhorias, correções ou novas ideias de layout espacial.
+🤝 Contributions
+Contributions are welcome! Feel free to open an issue or submit a pull request with enhancements, fixes, or new features to enrich the project.
 
-## 🪙 Licença
-Este projeto está licenciado sob a MIT License – veja o arquivo LICENSE para mais detalhes.
+## 🪙 License
+This project is licensed under the MIT License – see the LICENSE file for details.
 
-# ✨ “O espaço não é o limite — é apenas o começo.”
+> ✨ "Space is not the limit, it's just the beginning."
 
