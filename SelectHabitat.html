@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Criação de Habitat Espacial</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Orbitron', sans-serif;
+      background: radial-gradient(#0a0a0a, #020202);
+      color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 2em;
+      color: #00ffff;
+    }
+
+    .step {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      width: 100%;
+    }
+
+    .step.active {
+      display: flex;
+    }
+
+    .options {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .option {
+      border: 2px solid #00ffff;
+      padding: 15px 30px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      background-color: transparent;
+      text-align: center;
+    }
+
+    .option:hover {
+      background-color: #00ffff22;
+      transform: scale(1.05);
+    }
+
+    .selected {
+      background-color: #00ffff44;
+      border-color: #ffffff;
+    }
+
+    button {
+      margin-top: 30px;
+      padding: 12px 24px;
+      font-size: 1em;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-family: inherit;
+      background-color: #00ffff;
+      color: #000;
+    }
+
+    #comboSection {
+      display: none;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    select {
+      padding: 10px;
+      font-size: 1em;
+      border-radius: 5px;
+      border: none;
+      background-color: #111;
+      color: #00ffff;
+      font-family: inherit;
+    }
+
+    #summary {
+      margin-top: 40px;
+      color: #aaa;
+      font-size: 1.1em;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Passo 1 -->
+  <div class="step active" id="step1">
+    <h1>🌌 Selecione o ambiente para o seu habitat</h1>
+    <div class="options">
+      <div class="option" onclick="selectEnv('Marciano')">🪐 Marciano</div>
+      <div class="option" onclick="selectEnv('Em órbita')">🛰️ Em órbita</div>
+      <div class="option" onclick="selectEnv('Lunar')">🌕 Lunar</div>
+    </div>
+    <button onclick="goToStep2()">Próximo</button>
+  </div>
+
+  <!-- Passo 2 -->
+  <div class="step" id="step2">
+    <h1>🏗️ Selecione o tipo de habitat</h1>
+    <div class="options">
+      <div class="option" onclick="selectHabitat('Produtos Infláveis')">Produtos Infláveis</div>
+      <div class="option" onclick="selectHabitat('Pré-montado')">Pré-montado</div>
+      <div class="option" onclick="selectHabitat('Fabricação in-situ')">Fabricação in-situ</div>
+      <div class="option" onclick="selectHabitat('Abordagem híbrida')">Abordagem híbrida</div>
+      <div class="option" onclick="selectHabitat('Fabricados no local')">Fabricados no local</div>
+    </div>
+
+    <div id="comboSection">
+      <label for="comboOptions">🔧 Combine com:</label>
+      <select id="comboOptions" onchange="updateCombo()">
+        <option value="">Selecione uma opção complementar</option>
+        <option value="Produtos Infláveis">Produtos Infláveis</option>
+        <option value="Pré-montado">Pré-montado</option>
+        <option value="Fabricação in-situ">Fabricação in-situ</option>
+      </select>
+    </div>
+
+   <button onclick="window.location.href='index.html'">Seguinte</button>
+
+  </div>
+
+  <!-- Resumo Final -->
+  <div id="summary"></div>
+
+  <script>
+    let ambienteSelecionado = '';
+    let habitatSelecionado = '';
+    let comboSelecionado = '';
+
+    function selectEnv(env) {
+      ambienteSelecionado = env;
+      const options = document.querySelectorAll('#step1 .option');
+      options.forEach(opt => opt.classList.remove('selected'));
+      const selected = Array.from(options).find(opt => opt.textContent.includes(env));
+      selected.classList.add('selected');
+    }
+
+    function goToStep2() {
+      if (!ambienteSelecionado) {
+        alert("Selecione um ambiente primeiro!");
+        return;
+      }
+      document.getElementById("step1").classList.remove("active");
+      document.getElementById("step2").classList.add("active");
+    }
+
+    function selectHabitat(type) {
+      habitatSelecionado = type;
+      comboSelecionado = '';
+
+      const options = document.querySelectorAll('#step2 .option');
+      options.forEach(opt => opt.classList.remove('selected'));
+      const selected = Array.from(options).find(opt => opt.textContent.includes(type));
+      selected.classList.add('selected');
+
+      const comboSection = document.getElementById("comboSection");
+      const combo = document.getElementById("comboOptions");
+
+      if (type === "Abordagem híbrida") {
+        combo.value = '';
+        comboSection.style.display = "flex";
+      } else {
+        comboSection.style.display = "none";
+      }
+    }
+
+    function updateCombo() {
+      comboSelecionado = document.getElementById("comboOptions").value;
+    }
+
+    function mostrarResumo() {
+      if (!habitatSelecionado || (habitatSelecionado === "Abordagem híbrida" && !comboSelecionado)) {
+        alert("Complete a seleção do tipo de habitat.");
+        return;
+      }
+
+      let textoFinal = `🌍 Ambiente: ${ambienteSelecionado} \n🏠 Habitat: ${habitatSelecionado}`;
+      if (habitatSelecionado === "Abordagem híbrida") {
+        textoFinal += ` + ${comboSelecionado}`;
+      }
+
+      document.getElementById("summary").innerText = textoFinal;
+    }
+  </script>
+
+</body>
+</html>
