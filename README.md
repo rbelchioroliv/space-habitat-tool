@@ -4,6 +4,12 @@
 Uma ferramenta interativa em JavaScript, HTML e CSS, com renderização 3D utilizando Three.js, desenvolvida para projetar e visualizar habitats espaciais — estruturas que sustentam a vida humana no espaço ou em outros planetas.
 <br>
 
+   <div aling="center">
+      <a href="https://github.com/MariaIsabelli">
+      <img  height="180em" src="https://github.com/MariaIsabelli/space-habitat-tool/blob/main/Front%20-%20End%20Space%20Habitat%20Tool%20-%201.jpg"/>
+      <img height="180em" src="https://github.com/MariaIsabelli/space-habitat-tool/blob/main/Front%20-%20End%20Space%20Habitat%20Tool%20-%202.jpg"/>
+   </div>
+
 # 🌍 Sobre o Projeto
 
 Habitats espaciais são "lares no espaço" que devem garantir que os membros da tripulação permaneçam saudáveis e aptos para executar suas missões.
@@ -56,7 +62,8 @@ O Space Habitat Tool permite que o usuário defina a forma e o volume de um habi
 
 ## 🛠 Instalação e Execução
 1. Clone este repositório: git clone https://github.com/seu-usuario/space-habitat-tool.git
-2. Acesse o diretório do projeto: cd space-habitat-tool
+2. No terminal rode o comando: `npx http-server`
+3. Acesse o diretório do projeto: cd space-habitat-tool
 3. Abra o arquivo index.html no seu navegador: Dica: use uma extensão como “Live Server” (VSCode) para melhor experiência local.
 
 ## 🎯 Objetivo
@@ -85,7 +92,7 @@ O projeto visa estimular o interesse por design espacial, engenharia aeroespacia
   
 - Vitória -
   
-- Camilla Carvalho -
+- Camilla Carvalho - camillacarvalhodejesus@gmail.com
 
 ## ⭐ Contribuições
 
