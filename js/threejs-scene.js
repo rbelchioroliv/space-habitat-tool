@@ -29,15 +29,44 @@ class ThreeJSScene {
 
     init() {
         this.scene = new THREE.Scene();
-        this.scene.background = new THREE.Color(0x0a0f1a);
+
+        const loader = new THREE.TextureLoader();
+        loader.load(
+            'assets/img/background.jpeg', 
+            (texture) => {
+                this.scene.background = texture;
+            },
+            undefined, 
+            (err) => {
+                console.error('Um erro ocorreu ao carregar a textura de fundo.', err);
+            }
+        );
 
         this.camera = new THREE.PerspectiveCamera(
             75,
             this.container.clientWidth / this.container.clientHeight,
             0.1,
-            1000
+            5000 
         );
-        this.camera.position.set(15, 8, 15);
+        
+        this.camera.position.set(60, 30, 60);
+
+     
+        this.scene.add(this.camera);
+
+       
+      
+        const cameraLight = new THREE.SpotLight(
+            0xffffff, // Cor
+            0.7,      // Intensidade
+            5000,      
+            1,      
+            0.5     
+        );
+        cameraLight.position.set(0, 0, 0); // Posição relativa à câmera 
+      
+        this.camera.add(cameraLight);
+       
 
         this.renderer = new THREE.WebGLRenderer({
             antialias: true,
@@ -51,18 +80,53 @@ class ThreeJSScene {
 
         this.controls = new THREE.OrbitControls(this.camera, this.renderer.domElement);
         this.controls.enableDamping = true;
-        this.controls.minDistance = 2;
-        this.controls.maxDistance = 50;
+
+        
+        this.controls.minDistance = 500;
+        this.controls.maxDistance = 5000;
 
         this.exteriorGroup = new THREE.Group();
         this.interiorGroup = new THREE.Group();
         this.scene.add(this.exteriorGroup);
         this.scene.add(this.interiorGroup);
 
+        
         this.setupLighting();
 
-        this.gridHelper = new THREE.GridHelper(20, 20, 0x444444, 0x222222);
-        this.scene.add(this.gridHelper);
+        // this.gridHelper = new THREE.GridHelper(2000, 2000, 0x444444, 0x223222);
+        // this.scene.add(this.gridHelper);
+
+        const groundGeometry = new THREE.PlaneGeometry(3000, 3000); // Mesmo tamanho do grid
+
+        //floor
+
+    
+        const textureLoader = new THREE.TextureLoader();
+        const groundTexture = textureLoader.load(
+            'assets/img/floor_texture_marte.jpg',
+            // (texture) => {
+            //     // Configura a textura para se repetir
+            //     texture.wrapS = THREE.RepeatWrapping;
+            //     texture.wrapT = THREE.RepeatWrapping;
+            //     texture.repeat.set(100, 100); // Repete a textura 100x100 vezes
+            // }
+        );
+
+        
+        const groundMaterial = new THREE.MeshStandardMaterial({
+            map: groundTexture,
+            roughness: 0.9,
+            metalness: 0.1
+        });
+
+        const groundPlane = new THREE.Mesh(groundGeometry, groundMaterial);
+
+        
+        groundPlane.rotation.x = -Math.PI / 2;
+       
+        groundPlane.receiveShadow = true;
+      
+        this.scene.add(groundPlane);
 
         this.axesHelper = new THREE.AxesHelper(5);
         this.scene.add(this.axesHelper);
@@ -73,6 +137,7 @@ class ThreeJSScene {
 
         console.log('Three.js scene initialized');
     }
+
 
     setupLighting() {
         this.scene.children.forEach(child => {
@@ -140,21 +205,20 @@ class ThreeJSScene {
                 }
             });
 
-            // Centraliza no chão da cena
             model.position.set(0, 0, 0);
 
 
 
-            // 🔄 Remove modelo anterior se existir
+          
             if (this.interiorModel) {
                 this.scene.remove(this.interiorModel);
             }
 
-            // Adiciona à cena e referencia como interiorModel
+            
             this.scene.add(model);
             this.interiorModel = model;
 
-            // Esconde por padrão — só mostra na Interior View
+          
             model.visible = false;
 
             console.log('✅ Interior model loaded and scaled');
@@ -166,7 +230,7 @@ class ThreeJSScene {
 
     createFunctionalArea(config) {
         console.warn("Método createFunctionalArea ainda não implementado.");
-        // Aqui você pode adicionar lógica para posicionar áreas funcionais no habitat
+      
     }
 
     createHabitat(structure, radius, height, levels = 1) {
@@ -175,12 +239,12 @@ class ThreeJSScene {
         const loader = new GLTFLoader();
 
         loader.load(
-            // Caminho correto
+            
             'assets/nave1.glb',
             (gltf) => {
                 this.habitatMesh = gltf.scene;
 
-                // Ajuste de tamanho e posição
+                
                 this.habitatMesh.scale.set(2, 2, 2);
                 this.habitatMesh.position.set(0, 2, 0);
 
@@ -331,6 +395,16 @@ class ThreeJSScene {
 
     animate() {
         requestAnimationFrame(() => this.animate());
+
+        // LÓGICA DE COLISÃO COM O CHÃO
+        const minCameraHeight = 4;
+
+       
+        if (this.camera.position.y < minCameraHeight) {
+            
+            this.camera.position.y = minCameraHeight;
+        }
+
         if (this.currentView === 'exterior' && this.habitatMesh && window.habitatBuilder) {
             const rotationSpeed = window.habitatBuilder.getRotationSpeed();
             this.habitatMesh.rotation.y += rotationSpeed * 0.01;
