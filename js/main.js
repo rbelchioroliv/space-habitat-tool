@@ -29,11 +29,13 @@ class SpaceHabitatApp {
             // Initialize modules in correct sequence
             await this.initializeModules();
 
+            
+            
             // Verify all modules are ready
             if (!this.checkModuleReadiness()) {
                 throw new Error('Some modules failed to initialize properly');
             }
-
+            this.modules.habitatBuilder.updateHabitat();
             this.setupGlobalEventListeners();
             this.setupUIInteractions();
             this.setupErrorHandling();

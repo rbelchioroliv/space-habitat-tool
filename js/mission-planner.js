@@ -106,18 +106,12 @@ class MissionPlanner {
         };
 
         this.nasaStandards = new NASAStandards();
-
-        // Inicializa os event listeners primeiro
         this.initEventListeners();
-
-        // DEPOIS atualiza o display
         this.updateMissionDisplay();
-
         console.log('Mission Planner initialized');
     }
 
     initEventListeners() {
-        // Mission destination selection
         document.querySelectorAll('.mission-option').forEach(option => {
             option.addEventListener('click', (e) => {
                 const destination = e.currentTarget.getAttribute('data-destination');
@@ -125,22 +119,18 @@ class MissionPlanner {
             });
         });
 
-        // Crew size slider
         document.getElementById('crew-size').addEventListener('input', (e) => {
             this.setCrewSize(parseInt(e.target.value));
         });
 
-        // Mission duration slider
         document.getElementById('mission-duration').addEventListener('input', (e) => {
             this.setDuration(parseInt(e.target.value));
         });
 
-        // EVA frequency slider
         document.getElementById('eva-frequency').addEventListener('input', (e) => {
             this.setEVAFrequency(parseInt(e.target.value));
         });
 
-        // Construction technology
         document.querySelectorAll('.tech-option').forEach(option => {
             option.addEventListener('click', (e) => {
                 const tech = e.currentTarget.getAttribute('data-tech');
@@ -152,7 +142,6 @@ class MissionPlanner {
     setDestination(destination) {
         this.currentMission.destination = destination;
 
-        // Update UI
         document.querySelectorAll('.mission-option').forEach(opt => {
             opt.classList.remove('active');
         });
@@ -161,7 +150,11 @@ class MissionPlanner {
         this.updateMissionDisplay();
         this.updateNASAStandards();
 
-        // Notify other components
+        // --- ADICIONADO: Comunica com a cena 3D para mudar a textura do chão ---
+        if (window.threeScene && typeof window.threeScene.updateGroundTexture === 'function') {
+            window.threeScene.updateGroundTexture(destination);
+        }
+
         if (window.habitatBuilder) {
             window.habitatBuilder.onMissionChange(this.currentMission);
         }
@@ -190,12 +183,10 @@ class MissionPlanner {
 
     setConstructionTechnology(tech) {
         this.currentMission.construction = tech;
-
         document.querySelectorAll('.tech-option').forEach(opt => {
             opt.classList.remove('active');
         });
         document.querySelector(`[data-tech="${tech}"]`).classList.add('active');
-
         this.updateNASAStandards();
     }
 
@@ -203,13 +194,10 @@ class MissionPlanner {
         const template = this.missionTemplates[this.currentMission.destination];
         const title = document.getElementById('habitat-title');
         const description = document.getElementById('habitat-description');
-
         if (title && description) {
             title.textContent = template.name;
             description.textContent = template.description;
         }
-
-        // Update architecture info
         this.updateArchitectureInfo(template);
     }
 
@@ -238,23 +226,11 @@ class MissionPlanner {
     }
 
     updateNASAStandards() {
-        const standards = this.nasaStandards.getMissionStandards(this.currentMission.destination);
         const lifeSupport = this.nasaStandards.getLifeSupportRequirements();
-
-        // Update standards display
-        document.getElementById('nhv-value').textContent =
-            `${this.nasaStandards.standards.netHabitableVolume.longDuration} m³/crew`;
-
-        document.getElementById('food-value').textContent =
-            `${lifeSupport.foodProduction.required} kg/crew/day`;
-
-        document.getElementById('water-value').textContent =
-            `> ${lifeSupport.waterRecycling.target * 100}%`;
-
-        document.getElementById('radiation-value').textContent =
-            `${this.getRadiationRequirement()} g/cm²`;
-
-        // Update compliance banner
+        document.getElementById('nhv-value').textContent = `${this.nasaStandards.standards.netHabitableVolume.longDuration} m³/crew`;
+        document.getElementById('food-value').textContent = `${lifeSupport.foodProduction.required} kg/crew/day`;
+        document.getElementById('water-value').textContent = `> ${lifeSupport.waterRecycling.target * 100}%`;
+        document.getElementById('radiation-value').textContent = `${this.getRadiationRequirement()} g/cm²`;
         this.updateComplianceBanner();
     }
 
@@ -269,16 +245,10 @@ class MissionPlanner {
     }
 
     updateComplianceBanner() {
-        const validation = this.nasaStandards.validateCrewAccommodation(
-            this.currentMission.destination,
-            this.currentMission.crewSize,
-            this.currentMission.duration
-        );
-
+        const validation = this.nasaStandards.validateCrewAccommodation(this.currentMission.destination, this.currentMission.crewSize, this.currentMission.duration);
         const nhvStatus = document.getElementById('nhv-status');
         const mmpactStatus = document.getElementById('mmpact-status');
         const nextstepStatus = document.getElementById('nextstep-status');
-
         if (validation.valid) {
             nhvStatus.textContent = 'Compliant';
             nhvStatus.className = 'status-compliant';
@@ -286,8 +256,6 @@ class MissionPlanner {
             nhvStatus.textContent = 'Review Required';
             nhvStatus.className = 'status-warning';
         }
-
-        // MMPACT assessment based on construction technology
         const tech = this.nasaStandards.standards.technologyReadiness[this.currentMission.construction];
         if (tech.trl >= 6) {
             mmpactStatus.textContent = 'Compatible';
@@ -296,8 +264,6 @@ class MissionPlanner {
             mmpactStatus.textContent = 'Tech Development';
             mmpactStatus.className = 'status-warning';
         }
-
-        // NextSTEP guidelines (simplified assessment)
         if (this.currentMission.crewSize <= 6 && this.currentMission.duration <= 360) {
             nextstepStatus.textContent = 'Compliant';
             nextstepStatus.className = 'status-compliant';
@@ -307,126 +273,7 @@ class MissionPlanner {
         }
     }
 
-    validateMissionConstraints(habitatData) {
-        const template = this.missionTemplates[this.currentMission.destination];
-        const issues = [];
-
-        // Check launch constraints
-        const diameter = habitatData.radius * 2;
-        if (diameter > template.constraints.fairing.diameter) {
-            issues.push(`Diameter (${diameter.toFixed(1)}m) exceeds ${template.constraints.launchVehicle} fairing (${template.constraints.fairing.diameter}m)`);
-        }
-
-        if (habitatData.height > template.constraints.fairing.length) {
-            issues.push(`Length (${habitatData.height.toFixed(1)}m) exceeds ${template.constraints.launchVehicle} fairing (${template.constraints.fairing.length}m)`);
-        }
-
-        if (habitatData.mass > template.constraints.massLimit) {
-            issues.push(`Mass (${habitatData.mass.toFixed(1)}t) exceeds ${template.constraints.launchVehicle} capacity (${template.constraints.massLimit}t)`);
-        }
-
-        // Check mission-specific requirements
-        const missionValidation = this.nasaStandards.validateCrewAccommodation(
-            this.currentMission.destination,
-            this.currentMission.crewSize,
-            this.currentMission.duration
-        );
-
-        issues.push(...missionValidation.issues);
-
-        return {
-            valid: issues.length === 0,
-            issues: issues,
-            constraints: template.constraints
-        };
-    }
-
-    generateMissionReport() {
-        const mission = this.getCurrentMission();
-        const template = this.missionTemplates[mission.destination];
-        const habitat = window.habitatBuilder ? window.habitatBuilder.getCurrentHabitat() : null;
-
-        return {
-            mission: {
-                ...mission,
-                template: template.name,
-                architecture: template.architecture,
-                constraints: template.constraints,
-                environment: template.environment
-            },
-            requirements: {
-                netHabitableVolume: this.nasaStandards.standards.netHabitableVolume.longDuration * mission.crewSize,
-                lifeSupport: this.nasaStandards.getLifeSupportRequirements(),
-                functionalAreas: this.nasaStandards.standards.functionalAreas
-            },
-            habitat: habitat,
-            validation: this.validateMissionConstraints(habitat),
-            timestamp: new Date().toISOString(),
-            reference: 'NASA Moon to Mars Architecture Definition Document'
-        };
-    }
-
     getCurrentMission() {
         return { ...this.currentMission };
-    }
-
-    getMissionTemplate(destination = null) {
-        const dest = destination || this.currentMission.destination;
-        return { ...this.missionTemplates[dest] };
-    }
-
-    onHabitatChange(habitatData) {
-        // Update constraints analysis when habitat changes
-        this.updateConstraintsAnalysis(habitatData);
-    }
-
-    updateConstraintsAnalysis(habitatData) {
-        const constraintsList = document.getElementById('constraints-list');
-        if (!constraintsList) return;
-
-        const validation = this.validateMissionConstraints(habitatData);
-
-        constraintsList.innerHTML = '';
-
-        if (validation.valid) {
-            constraintsList.innerHTML = `
-                <div class="constraint-item compliant">
-                    <span>✓</span>
-                    <span>All mission constraints satisfied</span>
-                </div>
-            `;
-        } else {
-            validation.issues.forEach(issue => {
-                const item = document.createElement('div');
-                item.className = 'constraint-item error';
-                item.innerHTML = `
-                    <span>✗</span>
-                    <span>${issue}</span>
-                `;
-                constraintsList.appendChild(item);
-            });
-        }
-
-        // Add constraint details
-        const details = document.createElement('div');
-        details.className = 'constraint-item';
-        details.innerHTML = `
-            <span>ℹ</span>
-            <span>Launch vehicle: ${validation.constraints.launchVehicle}, Mass limit: ${validation.constraints.massLimit}t</span>
-        `;
-        constraintsList.appendChild(details);
-    }
-
-    getCurrentMissionSafe() {
-        // Return safe defaults if mission planner isn't fully initialized
-        if (!this.currentMission) {
-            return {
-                destination: 'lunar-surface',
-                crewSize: 4,
-                duration: 180,
-                construction: 'prefab'
-            };
-        }
-        return this.getCurrentMission();
     }
 }
